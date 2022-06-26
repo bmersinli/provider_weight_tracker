@@ -68,17 +68,20 @@ class WeightPage extends StatelessWidget {
         onPressed: () async {
           var state = Provider.of<WeightState>(context, listen: false);
           var result = await showDialog<double>(
-            context: context,
-            builder: (context) => DecimalNumberPicker(minValue: 10, maxValue: 100, value: , onChanged: onChanged)
-          );
-          if (result != null && result > 0) {
-            state.add(
-              Weight(
-                value: result,
-                time: DateTime.now(),
-              ),
-            );
-          }
+              context: context,
+              builder: (context) => DecimalNumberPicker(
+                  minValue: 10,
+                  maxValue: 100,
+                  value: state.weights.first.value,
+                  onChanged: (result) async {
+                    if (result != null && result > 0)
+                      state.add(
+                        Weight(
+                          value: result,
+                          time: DateTime.now(),
+                        ),
+                      );
+                  }));
         },
         child: Icon(Icons.add),
       ),
